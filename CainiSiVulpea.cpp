@@ -6,7 +6,7 @@
 #define cols 8
 #define rows 8
 using namespace std;
-
+// Pot da edit  	
 float l;//latura unuei celule
 typedef struct tabla
 {
