@@ -8,10 +8,11 @@
 using namespace std;
 
 float l;//latura unuei celule
-typedef struct tabla   {
+typedef struct tabla
+{
     float x,y;//coordonate colt stanga sus pentru fiecare celula
     int valoare;//pentru a implementa cainii si vulpea
-}grid[8][8];
+} grid[8][8];
 
 void citesteMatriceTabla (grid tabla);
 
@@ -32,7 +33,6 @@ int main()
 {
 
     grid tabla;
-    initwindow(800,800);
     menu();
 
 
@@ -41,14 +41,14 @@ int main()
 }
 void citesteMatriceTabla (grid tabla)//pentru teste ,urmeaza sa fie initilaizata din fisier
 {
-  for (int i = 0; i < cols; i++)
-    for (int j = 0; j < rows; j++)
-      tabla[i][j].valoare = 0;
-      tabla[0][3].valoare=2;//vulpea
-      tabla[7][0].valoare=1;//caine din stanga
-      tabla[7][2].valoare=1;//cainele al2-lea
-      tabla[7][4].valoare=1;//cainele al3-lea
-      tabla[7][6].valoare=1;//cainele al4-lea
+    for (int i = 0; i < cols; i++)
+        for (int j = 0; j < rows; j++)
+            tabla[i][j].valoare = 0;
+    tabla[0][3].valoare=2;//vulpea
+    tabla[7][0].valoare=1;//caine din stanga
+    tabla[7][2].valoare=1;//cainele al2-lea
+    tabla[7][4].valoare=1;//cainele al3-lea
+    tabla[7][6].valoare=1;//cainele al4-lea
 }
 void deseneazaVulpe(grid tabla,int i,int j)
 {
@@ -74,15 +74,15 @@ void asociereGrafica(grid tabla) //pentru fiecare patrat din tabla ,indicam coor
     tabla[0][0].y=0;
     //coordonatele coltului stanga sus  pentru fiecare patrat
     int i,j;
-    for(i=0;i<8;i++)
-        for(j=0;j<8;j++)
+    for(i=0; i<8; i++)
+        for(j=0; j<8; j++)
         {
-        tabla[i][j].x=tabla[0][0].x+j*l;
-        tabla[i][j].y=tabla[0][0].y+i*l;
+            tabla[i][j].x=tabla[0][0].x+j*l;
+            tabla[i][j].y=tabla[0][0].y+i*l;
         }
 }
 void deseneazatabla(grid tabla)
- {
+{
     int i,j;
 
     asociereGrafica(tabla);
@@ -91,20 +91,23 @@ void deseneazatabla(grid tabla)
         for ( j = 0; j < rows; j++)
         {
             if((i+j)%2==0)
-            {   setcolor(BLACK);
+            {
+                setcolor(BLACK);
                 rectangle(tabla[i][j].x,tabla[i][j].y,tabla[i][j].x+l,tabla[i][j].y+l);
                 setfillstyle(SOLID_FILL,BLACK);
                 floodfill(tabla[i][j].x+1,tabla[i][j].y+1,BLACK);
             }
             else
             {
-            setcolor(WHITE);
-            rectangle(tabla[i][j].x,tabla[i][j].y,tabla[i][j].x+l,tabla[i][j].y+l);
-            setfillstyle(SOLID_FILL,WHITE);
-            floodfill(tabla[i][j].x+1,tabla[i][j].y+1,WHITE);
+                setcolor(WHITE);
+                rectangle(tabla[i][j].x,tabla[i][j].y,tabla[i][j].x+l,tabla[i][j].y+l);
+                setfillstyle(SOLID_FILL,WHITE);
+                floodfill(tabla[i][j].x+1,tabla[i][j].y+1,WHITE);
             }
-            if(tabla[i][j].valoare==2) deseneazaVulpe(tabla,i,j);
-        else if(tabla[i][j].valoare==1) deseneazaCaine(tabla,i,j);
+            if(tabla[i][j].valoare==2)
+                deseneazaVulpe(tabla,i,j);
+            else if(tabla[i][j].valoare==1)
+                deseneazaCaine(tabla,i,j);
         }
 
     }
@@ -112,7 +115,7 @@ void deseneazatabla(grid tabla)
 
 void menu()
 {
-  int midx,x,y;
+    int midx,x,y;
 
     initwindow(720, 720);
     setbkcolor(CYAN);
@@ -132,23 +135,20 @@ void menu()
 
     while(1)
     {
-        getmouseclick(WM_LBUTTONDOWN,x,y);
-        if(x >240 && x<467 && y>258 && y<312)
-        {
-             cleardevice();
-               citesteMatriceTabla(tabla);
-           deseneazatabla(  tabla);
-
+        if(ismouseclick(WM_LBUTTONDOWN))
+       {
+            x=mousex();
+            y=mousey();
+            clearmouseclick(WM_LBUTTONDOWN);
+              //getmouseclick(WM_LBUTTONDOWN,x,y);
+            if(x >240 && x<467 && y>258 && y<312)
+            {
+                cleardevice();
+                citesteMatriceTabla(tabla);
+                deseneazatabla(  tabla);
+            }
+            if(x >240 && x<467 && y>358 && y<412)
+                exit(1);
         }
-
-
-        getmouseclick(WM_LBUTTONDOWN,x,y);
-        if(x >240 && x<467 && y>358 && y<412)
-        {
-            closegraph();
-
-        }
-
     }
-
 }
