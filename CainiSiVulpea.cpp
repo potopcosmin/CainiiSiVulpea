@@ -7,107 +7,107 @@
 #define rows 8
 using namespace std;
 
-float l;//latura unuei celule
-typedef struct tabla
+float l;                                                  //latura unuei celule
+typedef struct board
 {
-    float x,y;//coordonate colt stanga sus pentru fiecare celula
-    int valoare;//pentru a implementa cainii si vulpea
+    float x,y;                                          //coordonate colt stanga sus pentru fiecare celula
+    int valoare;                                    //pentru a implementa cainii si vulpea
 } grid[8][8];
 
-void citesteMatriceTabla (grid tabla);
+void readMatrix (grid board);
 
-void deseneazaVulpe(grid tabla,int i,int j);
+void drawFox(grid board,int i,int j);
 
-void deseneazaCaine(grid tabla,int i,int j);
+void drawDog(grid board,int i,int j);
 
-void asociereGrafica(grid tabla);
+void matrix(grid board);
 
-void deseneazatabla(grid tabla);
+void drawBoard(grid board);
 
 void menu();
 
-grid tabla;
+grid board;
 
 
 int main()
 {
 
-    grid tabla;
+
     menu();
 
 
     getch();
     closegraph();
 }
-void citesteMatriceTabla (grid tabla)//pentru teste ,urmeaza sa fie initilaizata din fisier
+void readMatrix (grid board)                //pentru teste ,urmeaza sa fie initilaizata din fisier
 {
     for (int i = 0; i < cols; i++)
         for (int j = 0; j < rows; j++)
-            tabla[i][j].valoare = 0;
-    tabla[0][3].valoare=2;//vulpea
-    tabla[7][0].valoare=1;//caine din stanga
-    tabla[7][2].valoare=1;//cainele al2-lea
-    tabla[7][4].valoare=1;//cainele al3-lea
-    tabla[7][6].valoare=1;//cainele al4-lea
+                board[i][j].valoare = 0;
+                board[0][3].valoare=2;      //vulpea
+                board[7][0].valoare=1;      //caine din stanga
+                board[7][2].valoare=1;      //cainele al2-lea
+                board[7][4].valoare=1;      //cainele al3-lea
+                board[7][6].valoare=1;      //cainele al4-lea
 }
-void deseneazaVulpe(grid tabla,int i,int j)
+void drawFox( grid board  , int i , int j  )
 {
-    setcolor(RED);
-    circle(tabla[i][j].x+l/2,tabla[i][j].y+l/2,l/6);
-    setfillstyle(SOLID_FILL,RED);
-    floodfill(tabla[i][j].x+l/2,tabla[i][j].y+l/2,RED);
+            setcolor(RED);
+            circle(      board[i][j].x+l/2,   board[i][j].y+l/2,   l/6);
+            setfillstyle(   SOLID_FILL,RED   );
+            floodfill(    board[i][j].x+l/2,   board[i][j].y+l/2,     RED);
 }
-void deseneazaCaine(grid tabla,int i,int j)
+void drawDog(grid board,int i,int j)
 {
 
-    setcolor(GREEN);
-    circle(tabla[i][j].x+l/2,tabla[i][j].y+l/2,l/6);
-    setfillstyle(SOLID_FILL,GREEN);
-    floodfill(tabla[i][j].x+l/2,tabla[i][j].y+l/2,GREEN);
+            setcolor(GREEN);
+            circle(board[i][j].x+l/2,board[i][j].y+l/2,l/6);
+            setfillstyle(SOLID_FILL,GREEN);
+            floodfill(board[i][j].x+l/2,board[i][j].y+l/2,GREEN);
 
 }
-void asociereGrafica(grid tabla) //pentru fiecare patrat din tabla ,indicam coordonatele coltului stanga sus
+void   matrix(grid board )                    //pentru fiecare patrat din tabla ,indicam coordonatele coltului stanga sus
 {
-    l=(float)getmaxx()/cols;//latura unui patratel
-    //coordonatele coltului stanga sus al tablei
-    tabla[0][0].x=0;
-    tabla[0][0].y=0;
-    //coordonatele coltului stanga sus  pentru fiecare patrat
+            l=(float)getmaxx()/cols;                              //latura unui patratel
+                                                                        //coordonatele coltului stanga sus al tablei
+            board[0][0].x=0;
+            board[0][0].y=0;
+                                                                    //coordonatele coltului stanga sus  pentru fiecare patrat
     int i,j;
     for(i=0; i<8; i++)
         for(j=0; j<8; j++)
         {
-            tabla[i][j].x=tabla[0][0].x+j*l;
-            tabla[i][j].y=tabla[0][0].y+i*l;
+            board[i][j].x=board[0][0].x+j*l;
+            board[i][j].y=board[0][0].y+i*l;
         }
 }
-void deseneazatabla(grid tabla)
+void drawBoard(grid board)
 {
     int i,j;
 
-    asociereGrafica(tabla);
+    matrix( board ) ;
     for (i = 0; i < cols; i++)
     {
         for ( j = 0; j < rows; j++)
         {
             if((i+j)%2==0)
             {
-                setcolor(BLACK);
-                rectangle(tabla[i][j].x,tabla[i][j].y,tabla[i][j].x+l,tabla[i][j].y+l);
-                setfillstyle(SOLID_FILL,BLACK);
-                floodfill(tabla[i][j].x+1,tabla[i][j].y+1,BLACK);
+                setcolor( BLACK) ;
+                rectangle  (    board[i][j].x,    board[i][j].y,board[i][j].x+l,   board[i][j].y+l);
+                setfillstyle (  SOLID_FILL,BLACK );
+                floodfill      (  board[i][j].x+1,  board[i][j].y+1,   BLACK );
             }
             else
             {
                 setcolor(WHITE);
-                rectangle(tabla[i][j].x,tabla[i][j].y,tabla[i][j].x+l,tabla[i][j].y+l);
+                rectangle(board[i][j].x,board[i][j].y,board[i][j].x+l,board[i][j].y+l);
                 setfillstyle(SOLID_FILL,WHITE);
-                floodfill(tabla[i][j].x+1,tabla[i][j].y+1,WHITE);
+                floodfill(board[i][j].x+1,board[i][j].y+1,WHITE);
             }
-            if(tabla[i][j].valoare==2)
-                deseneazaVulpe(tabla,i,j);
-            else if(tabla[i][j].valoare==1)
-                deseneazaCaine(tabla,i,j);
+            if(board[i][j].valoare==2)
+                drawFox(board,i,j);
+            else if(board[i][j].valoare==1)
+               drawDog(board,i,j);
         }
 
     }
@@ -140,12 +140,11 @@ void menu()
             x=mousex();
             y=mousey();
             clearmouseclick(WM_LBUTTONDOWN);
-              //getmouseclick(WM_LBUTTONDOWN,x,y);
             if(x >240 && x<467 && y>258 && y<312)
             {
-                cleardevice();
-                citesteMatriceTabla(tabla);
-                deseneazatabla(  tabla);
+                 cleardevice();
+                 readMatrix ( board ) ;
+                 drawBoard(  board );
             }
             if(x >240 && x<467 && y>358 && y<412)
                 exit(1);
